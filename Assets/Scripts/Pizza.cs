@@ -14,13 +14,13 @@ public class Pizza : MonoBehaviour
     public void Cook()
     {
         pizzaState = PizzaState.cooked;
-        GetComponent<MeshRenderer>().material.color += cookedColor;
+        GetComponentInChildren<MeshRenderer>().material.color += cookedColor;
     }
 
     public void ChangeFlavor(Flavour newFlavor)
     {
         flavour = newFlavor;
-        GetComponent<MeshRenderer>().material.color = flavorColors[(int)flavour - 1];
+        GetComponentInChildren<MeshRenderer>().material.color = flavorColors[(int)flavour - 1];
     }
 }
 

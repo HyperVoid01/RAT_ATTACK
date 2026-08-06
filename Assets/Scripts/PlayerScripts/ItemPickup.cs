@@ -1,11 +1,13 @@
-using System;
 using UnityEngine;
 
 public class ItemPickup : MonoBehaviour
 {
-    [SerializeField] private float range;
+    [SerializeField] private float range; // Also max Hold distance
     [SerializeField] private float radius;
-    [SerializeField] private float holdDistance;
+    [SerializeField] private float currentHoldDistance;
+    [SerializeField] private float minHoldDistance;
+    [SerializeField] private float maxHoldDistance; // How far until drop item
+    [SerializeField] private float holdDistanceDelta; // How much hold distance changes
     [SerializeField] private LayerMask layer;
     [SerializeField] private Camera camera;
 
@@ -18,20 +20,21 @@ public class ItemPickup : MonoBehaviour
     private Rigidbody currentPickupRb;
     private bool isHolding;
     
-
     private CollisionDetectionMode originalCollisionMode;
 
     private void Update()
     {
+        // Other raycast attempts
         // Physics.Raycast(camera.transform.position, camera.transform.forward, out RaycastHit hit, range, layer)
         // Physics.SphereCast(camera.transform.position, radius, camera.transform.forward, out RaycastHit hit, range, layer)
+        AdjustHoldDistance();
         
         if (Input.GetMouseButton(0) && Physics.SphereCast(camera.transform.position, radius, camera.transform.forward, out RaycastHit hit, range, layer) && !currentPickup)
         {
-            Debug.Log(hit.collider.name);
-
             currentPickup = hit.collider.gameObject;
             currentPickupRb = currentPickup.GetComponent<Rigidbody>();
+            currentHoldDistance = Vector3.Distance(camera.transform.position, currentPickup.transform.position);
+            currentHoldDistance = Mathf.Clamp(currentHoldDistance, minHoldDistance, range);
 
             originalCollisionMode = currentPickupRb.collisionDetectionMode;
             currentPickupRb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
@@ -44,13 +47,7 @@ public class ItemPickup : MonoBehaviour
         }
         else if (currentPickup && Input.GetMouseButtonUp(0))
         {
-            currentPickupRb.useGravity = true;
-            currentPickupRb.collisionDetectionMode = originalCollisionMode;
-            // no velocity reset, whatever velocity it has right now is the throw
-
-            isHolding = false;
-            currentPickup = null;
-            currentPickupRb = null;
+            DropItem();
         }
     }
 
@@ -62,13 +59,29 @@ public class ItemPickup : MonoBehaviour
         }
     }
 
+    private void DropItem()
+    {
+        currentPickupRb.useGravity = true;
+        currentPickupRb.collisionDetectionMode = originalCollisionMode;
+        // no velocity reset, whatever velocity it has right now is the throw
+
+        isHolding = false;
+        currentPickup = null;
+        currentPickupRb = null;
+    }
+
     private void MovePickupItem()
     {
         HUDManager.Instance.DisableInteractionText();
+
+        if (Vector3.Distance(camera.transform.position, currentPickup.transform.position) > maxHoldDistance)
+        {
+            DropItem();
+            return;
+        }
         
-        //Vector3 targetPosition = transform.position + transform.forward * holdDistance;
         Transform camTransform = camera.transform;
-        Vector3 targetPosition = camTransform.position + camTransform.forward * holdDistance;
+        Vector3 targetPosition = camTransform.position + camTransform.forward * currentHoldDistance;
         
         // Position: steer velocity toward the target point (spring-like)
         Vector3 toTarget = targetPosition - currentPickupRb.position;
@@ -76,7 +89,6 @@ public class ItemPickup : MonoBehaviour
         currentPickupRb.linearVelocity = Vector3.ClampMagnitude(desiredVelocity, maxHoldSpeed);
 
         // Rotation: steer angular velocity toward matching the player's rotation
-        // Quaternion rotDelta = transform.rotation * Quaternion.Inverse(currentPickupRb.rotation);
         Quaternion rotDelta = camTransform.rotation * Quaternion.Inverse(currentPickupRb.rotation);
         rotDelta.ToAngleAxis(out float angleDeg, out Vector3 axis);
         if (angleDeg > 180f) angleDeg -= 360f;
@@ -84,6 +96,17 @@ public class ItemPickup : MonoBehaviour
         if (Mathf.Abs(angleDeg) > Mathf.Epsilon)
         {
             currentPickupRb.angularVelocity = axis * (angleDeg * Mathf.Deg2Rad * rotationStrength);
+        }
+    }
+
+    private void AdjustHoldDistance()
+    {
+        float scrollDelta = Input.GetAxis("Mouse ScrollWheel");
+
+        if (scrollDelta != 0)
+        {
+            currentHoldDistance += scrollDelta * holdDistanceDelta;
+            currentHoldDistance = Mathf.Clamp(currentHoldDistance, minHoldDistance, range);
         }
     }
 

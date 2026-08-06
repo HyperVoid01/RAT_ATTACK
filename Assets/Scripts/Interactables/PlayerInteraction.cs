@@ -24,6 +24,9 @@ public class PlayerInteraction : MonoBehaviour
         {
             if (hit.collider.CompareTag("Interactable") || hit.collider.CompareTag("Pizza")) // If looking at an interactable object
             {
+                if (!hit.collider.GetComponent<Interactable>())
+                    return;
+                
                 Interactable newInteractable = hit.collider.GetComponent<Interactable>();
                 
                 // If there is a currentInteractable, and it is not the newInteractable

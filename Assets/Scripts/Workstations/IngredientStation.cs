@@ -7,16 +7,9 @@ public class IngredientStation : MonoBehaviour
     [SerializeField] private Interactable topping2;
     [SerializeField] private Interactable topping3;
 
-    public GameObject currentPizzaObject;
-    public Pizza currentPizza;
-
-    private void Start()
-    {
-        // topping1.enabled = false;
-        // topping2.enabled = false;
-        // topping3.enabled = false;
-    }
-
+    private GameObject currentPizzaObject;
+    private Pizza currentPizza;
+    
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Pizza") && !currentPizza && other.gameObject != currentPizzaObject)
@@ -27,10 +20,6 @@ public class IngredientStation : MonoBehaviour
             
             currentPizzaObject = other.gameObject;
             currentPizza = currentPizzaObject.GetComponent<Pizza>();
-
-            // topping1.enabled = true;
-            // topping2.enabled = true;
-            // topping3.enabled = true;
         }
     }
 
@@ -40,10 +29,6 @@ public class IngredientStation : MonoBehaviour
         {
             currentPizza = null;
             currentPizzaObject = null;
-            
-            // topping1.enabled = false;
-            // topping2.enabled = false;
-            // topping3.enabled = false;
         }
     }
 

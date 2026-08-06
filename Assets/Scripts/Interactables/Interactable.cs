@@ -27,6 +27,9 @@ public class Interactable : MonoBehaviour
 
     public void EnableOutline()
     {
+        if (!outline)
+            return;
+        
         outline.enabled = true;
     }
 }

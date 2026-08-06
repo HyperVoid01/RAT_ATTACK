@@ -4,6 +4,7 @@ using UnityEngine;
 public class HUDManager : MonoBehaviour
 {
     [SerializeField] private TMP_Text interactionText;
+    [SerializeField] private TMP_Text orderText;
 
     public static HUDManager Instance;
 
@@ -30,5 +31,10 @@ public class HUDManager : MonoBehaviour
     public void DisableInteractionText()
     {
         interactionText.gameObject.SetActive(false);
+    }
+
+    public void AddOrderText(string text)
+    {
+        orderText.text += "\n" + text;
     }
 }
