@@ -1,7 +1,9 @@
+using System.Collections;
 using UnityEngine;
 
 public class CustomerBehaviour : MonoBehaviour
 {
+    [SerializeField] private CustomerData data;
     private Flavour order;
     public bool orderTaken;
     public bool inLine;
@@ -43,7 +45,7 @@ public class CustomerBehaviour : MonoBehaviour
         }
 
         orderTaken = true;
-        HUDManager.Instance.AddOrderText(order.ToString());
+        HUDManager.Instance.AddOrderText(this, order.ToString());
 
         if (interactable != null)
         {
@@ -52,5 +54,15 @@ public class CustomerBehaviour : MonoBehaviour
         }
 
         movement.LeaveLine(table);
+    }
+
+    public IEnumerator EatPizza(GameObject pizza)
+    {
+        yield return new WaitForSeconds(data.eatTime);
+        Destroy(pizza);
+        
+        yield return new WaitForSeconds(0.5f);
+        StartCoroutine(movement.Leave());
+        
     }
 }

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Table : MonoBehaviour
 {
-    [SerializeField] private Transform pizzaSlot;
+    [SerializeField] public Transform pizzaSlot;
     [SerializeField] private Transform[] seatSlots; // Positions of seats
     private List<GameObject> customersAtTable = new List<GameObject>(); // Customers occupying seats
 
@@ -23,5 +23,10 @@ public class Table : MonoBehaviour
     {
         customersAtTable.Add(customer);
         return seatSlots[CustomerCount - 1];
+    }
+
+    public void LeaveSeat(GameObject customer)
+    {
+        customersAtTable.Remove(customer);
     }
 }

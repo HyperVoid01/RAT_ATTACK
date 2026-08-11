@@ -1,10 +1,14 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 public class HUDManager : MonoBehaviour
 {
     [SerializeField] private TMP_Text interactionText;
-    [SerializeField] private TMP_Text orderText;
+    [SerializeField] private Transform orderTextRoot;
+    [SerializeField] private GameObject orderDetails;
+    
+    Dictionary<CustomerBehaviour, GameObject> customerOrders = new Dictionary<CustomerBehaviour, GameObject>();
 
     public static HUDManager Instance;
 
@@ -33,8 +37,20 @@ public class HUDManager : MonoBehaviour
         interactionText.gameObject.SetActive(false);
     }
 
-    public void AddOrderText(string text)
+    public void AddOrderText(CustomerBehaviour customer, string text)
     {
-        orderText.text += "\n" + text;
+        GameObject detailsObject = Instantiate(orderDetails);
+        TMP_Text details = detailsObject.GetComponent<TMP_Text>();
+        details.transform.SetParent(orderTextRoot, false);
+        details.text = text;
+        
+        customerOrders.Add(customer, detailsObject);
+    }
+
+    public void RemoveOrderDetails(CustomerBehaviour customer)
+    {
+        GameObject oldOrder = customerOrders[customer];
+        customerOrders.Remove(customer);
+        Destroy(oldOrder);
     }
 }

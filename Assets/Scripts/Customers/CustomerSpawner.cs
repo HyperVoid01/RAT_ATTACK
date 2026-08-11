@@ -9,6 +9,7 @@ public class CustomerSpawner : MonoBehaviour
     [SerializeField] private Vector2 spawnRate; // Time between customer spawns in a wave
     [SerializeField] private float spawnAmountMultiplier; // Increase of customers
     [SerializeField] private Transform spawnPoint;
+    [SerializeField] public Transform exitPoint;
     [SerializeField] private int maxSpawnCount; // Max customers in game
     
     [Header("Customer Mesh")]

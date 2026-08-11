@@ -1,14 +1,22 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class CustomerMovement : MonoBehaviour
 {
+    // NOTE : Need to convert customer scripts to use state pattern
+    
     [SerializeField] private CustomerData data;
-    [SerializeField] private Transform exitPoint; // where customers walk to after being served
-
+    [SerializeField] private Transform pizzaSlot; // where customers hold pizza
+    
+    private GameObject currentPizza;
     private bool slotReserved;
+    public bool seated;
     private int queueSlot;
     private int lastSeenQueueVersion;
+    private Table currentTable;
+    private Transform seat;
+    
     private NavMeshAgent agent;
     private CustomerBehaviour behaviour;
 
@@ -16,6 +24,7 @@ public class CustomerMovement : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         behaviour = GetComponent<CustomerBehaviour>();
+        agent.speed = data.walkSpeed;
     }
 
     private void Start()
@@ -64,6 +73,14 @@ public class CustomerMovement : MonoBehaviour
         }
     }
 
+    private void LateUpdate()
+    {
+        if (currentPizza && !seated)
+        {
+            currentPizza.transform.position = pizzaSlot.position;
+        }
+    }
+
     private void TryReserveSlot()
     {
         int slot = OrderStation.Instance.ReserveSlot();
@@ -80,12 +97,39 @@ public class CustomerMovement : MonoBehaviour
     // order is taken. A table is guaranteed non-null here.
     public void LeaveLine(Table table)
     {
+        currentTable = table;
         OrderStation.Instance.LeaveQueue(behaviour);
-        agent.SetDestination(table.TakeSeat(gameObject).position);
+        seat = table.TakeSeat(gameObject);
+        agent.SetDestination(seat.position);
     }
     
-    public void Move(Transform target)
+    public IEnumerator PickupPizza(Transform target, GameObject pizza)
     {
         agent.SetDestination(target.position);
+        
+        yield return new WaitUntil(() => Vector3.Distance(transform.position, agent.destination) < 0.5f);
+        
+        currentPizza = pizza;
+        currentPizza.GetComponent<Rigidbody>().isKinematic = true;
+        currentPizza.transform.rotation = Quaternion.Euler(Vector3.zero);
+        agent.SetDestination(seat.position);
+        HUDManager.Instance.RemoveOrderDetails(behaviour);
+        
+        yield return new WaitUntil(() => Vector3.Distance(transform.position, agent.destination) < 0.5f);
+        
+        seated = true;
+        currentPizza.transform.position = currentTable.pizzaSlot.transform.position;
+        
+        StartCoroutine(behaviour.EatPizza(pizza));
+    }
+
+    public IEnumerator Leave()
+    {
+        currentTable.LeaveSeat(gameObject);
+        agent.SetDestination(CustomerSpawner.Instance.exitPoint.position);
+        yield return new WaitUntil(() => Vector3.Distance(transform.position, agent.destination) < 0.5f);
+
+        CustomerSpawner.Instance.customerCount--;
+        Destroy(gameObject);
     }
 }

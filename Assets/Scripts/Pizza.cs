@@ -22,6 +22,12 @@ public class Pizza : MonoBehaviour
         flavour = newFlavor;
         GetComponentInChildren<MeshRenderer>().material.color = flavorColors[(int)flavour - 1];
     }
+
+    public void DisablePickup()
+    {
+        gameObject.layer = 0;
+        GetComponent<Interactable>().enabled = false;
+    }
 }
 
 public enum PizzaState

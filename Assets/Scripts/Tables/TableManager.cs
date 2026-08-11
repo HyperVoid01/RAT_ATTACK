@@ -17,11 +17,6 @@ public class TableManager : MonoBehaviour
         Instance = this;
     }
 
-    private void Start()
-    {
-        Debug.Log(TotalAvailableSlots());
-    }
-
     public Table GetTable()
     {
         foreach (Table table in tables)

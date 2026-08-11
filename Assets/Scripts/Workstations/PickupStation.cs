@@ -45,11 +45,16 @@ public class PickupStation : MonoBehaviour
 
     public void CallCustomer()
     {
+        if (!currentPizzaObject || waitingCustomers.Count == 0)
+            return;
+        
         foreach (CustomerBehaviour customer in waitingCustomers)
         {
             if (customer.Order == currentPizza.Flavour)
             {
-                customer.movement.Move(pickupPoint);
+                currentPizza.DisablePickup();
+                StartCoroutine(customer.movement.PickupPizza(pickupPoint, currentPizzaObject));
+                waitingCustomers.Remove(customer);
                 return;
             }
         }
