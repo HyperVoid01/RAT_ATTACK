@@ -1,15 +1,17 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-public class RatController : MonoBehaviour
+public class RatController : MonoBehaviour, ITargetable
 {
     [SerializeField] private RatData data;
     
+    private int currentHealth;
     public Transform player;
     private NavMeshAgent agent;
     private float idleTimer;
     private bool isWaiting;
     private bool isFleeing;
+    private ITargetable targetableImplementation;
 
     private void Start()
     {
@@ -105,5 +107,20 @@ public class RatController : MonoBehaviour
         
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, data.wanderRadius);
+    }
+
+    public void TakeDamage(int damage)
+    {
+        currentHealth = Mathf.Clamp(currentHealth - damage, 0, data.maxHealth);
+
+        if (currentHealth <= 0)
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    public void Heal(int healing)
+    {
+        currentHealth = Mathf.Clamp(currentHealth + healing, 0, data.maxHealth);
     }
 }

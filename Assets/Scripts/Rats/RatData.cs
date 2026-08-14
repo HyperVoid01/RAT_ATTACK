@@ -3,7 +3,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewRatData", menuName = "Scriptable Objects/Rat Data")]
 public class RatData : ScriptableObject
 {
-    public float speed; 
+    public float speed;
+    public int maxHealth;
     public float wanderRadius;
     public float minIdleTime;
     public float maxIdleTime;

@@ -13,6 +13,5 @@ MonoBehaviour:
   m_Name: CustomerData
   m_EditorClassIdentifier: 
   walkSpeed: 5
-  servedWaitTime: 10
-  orderWaitTime: 10
+  orderWaitTime: 50
   eatTime: 10

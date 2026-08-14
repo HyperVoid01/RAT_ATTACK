@@ -48,6 +48,9 @@ public class PickupStation : MonoBehaviour
         if (!currentPizzaObject || waitingCustomers.Count == 0)
             return;
         
+        // Clears empty customer slots
+        waitingCustomers.RemoveAll(c => c == null);
+        
         foreach (CustomerBehaviour customer in waitingCustomers)
         {
             if (customer.Order == currentPizza.Flavour)

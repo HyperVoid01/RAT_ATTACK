@@ -19,6 +19,8 @@ public class CustomerMovement : MonoBehaviour
     
     private NavMeshAgent agent;
     private CustomerBehaviour behaviour;
+    
+    private Coroutine waitForOrderRoutine;
 
     private void Awake()
     {
@@ -64,7 +66,7 @@ public class CustomerMovement : MonoBehaviour
         {
             behaviour.inLine = true;
 
-            // Only register for service once - shifting forward later must not re-add customer.
+            // Only register for service once - shifting forward later must not re-add customer
             if (!behaviour.joinedQueue)
             {
                 behaviour.joinedQueue = true;
@@ -101,10 +103,21 @@ public class CustomerMovement : MonoBehaviour
         OrderStation.Instance.LeaveQueue(behaviour);
         seat = table.TakeSeat(gameObject);
         agent.SetDestination(seat.position);
+        waitForOrderRoutine = StartCoroutine(WaitForOrder());
+    }
+
+    public IEnumerator WaitForOrder()
+    {
+        yield return new WaitForSeconds(data.orderWaitTime);
+        HUDManager.Instance.RemoveOrderDetails(behaviour);
+        StartCoroutine(Leave());
     }
     
-    public IEnumerator PickupPizza(Transform target, GameObject pizza)
+    public IEnumerator PickupPizza(Transform target, GameObject pizza) // Pickup pizza from pickup station
     {
+        if (waitForOrderRoutine != null)
+            StopCoroutine(waitForOrderRoutine);
+        PickupStation.Instance.waitingCustomers.Remove(behaviour);
         agent.SetDestination(target.position);
         
         yield return new WaitUntil(() => Vector3.Distance(transform.position, agent.destination) < 0.5f);
@@ -123,7 +136,7 @@ public class CustomerMovement : MonoBehaviour
         StartCoroutine(behaviour.EatPizza(pizza));
     }
 
-    public IEnumerator Leave()
+    public IEnumerator Leave() // Leave restaurant
     {
         currentTable.LeaveSeat(gameObject);
         agent.SetDestination(CustomerSpawner.Instance.exitPoint.position);

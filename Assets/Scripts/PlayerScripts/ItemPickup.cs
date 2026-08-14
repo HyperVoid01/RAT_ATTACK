@@ -24,9 +24,6 @@ public class ItemPickup : MonoBehaviour
 
     private void Update()
     {
-        // Other raycast attempts
-        // Physics.Raycast(camera.transform.position, camera.transform.forward, out RaycastHit hit, range, layer)
-        // Physics.SphereCast(camera.transform.position, radius, camera.transform.forward, out RaycastHit hit, range, layer)
         AdjustHoldDistance();
         
         if (Input.GetMouseButton(0) && Physics.SphereCast(camera.transform.position, radius, camera.transform.forward, out RaycastHit hit, range, layer) && !currentPickup)

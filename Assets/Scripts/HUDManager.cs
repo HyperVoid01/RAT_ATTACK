@@ -49,6 +49,9 @@ public class HUDManager : MonoBehaviour
 
     public void RemoveOrderDetails(CustomerBehaviour customer)
     {
+        if (!customerOrders.ContainsKey(customer))
+            return; // already removed, nothing to do
+        
         GameObject oldOrder = customerOrders[customer];
         customerOrders.Remove(customer);
         Destroy(oldOrder);
