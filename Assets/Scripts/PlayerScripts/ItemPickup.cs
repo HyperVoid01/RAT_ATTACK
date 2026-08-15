@@ -9,7 +9,7 @@ public class ItemPickup : MonoBehaviour
     [SerializeField] private float maxHoldDistance; // How far until drop item
     [SerializeField] private float holdDistanceDelta; // How much hold distance changes
     [SerializeField] private LayerMask layer;
-    [SerializeField] private Camera camera;
+    [SerializeField] private Camera playerCamera;
 
     [Header("Hold Feel")]
     [SerializeField] private float followStrength = 12f;   // higher = snappier/stiffer, lower = floatier/laggier
@@ -25,12 +25,15 @@ public class ItemPickup : MonoBehaviour
     private void Update()
     {
         AdjustHoldDistance();
-        
-        if (Input.GetMouseButton(0) && Physics.SphereCast(camera.transform.position, radius, camera.transform.forward, out RaycastHit hit, range, layer) && !currentPickup)
+    }
+
+    private void LateUpdate()
+    {
+        if (Input.GetMouseButton(0) && Physics.SphereCast(playerCamera.transform.position, radius, playerCamera.transform.forward, out RaycastHit hit, range, layer) && !currentPickup)
         {
             currentPickup = hit.collider.gameObject;
             currentPickupRb = currentPickup.GetComponent<Rigidbody>();
-            currentHoldDistance = Vector3.Distance(camera.transform.position, currentPickup.transform.position);
+            currentHoldDistance = Vector3.Distance(playerCamera.transform.position, currentPickup.transform.position);
             currentHoldDistance = Mathf.Clamp(currentHoldDistance, minHoldDistance, range);
 
             originalCollisionMode = currentPickupRb.collisionDetectionMode;
@@ -71,13 +74,13 @@ public class ItemPickup : MonoBehaviour
     {
         HUDManager.Instance.DisableInteractionText();
 
-        if (Vector3.Distance(camera.transform.position, currentPickup.transform.position) > maxHoldDistance)
+        if (Vector3.Distance(playerCamera.transform.position, currentPickup.transform.position) > maxHoldDistance)
         {
             DropItem();
             return;
         }
         
-        Transform camTransform = camera.transform;
+        Transform camTransform = playerCamera.transform;
         Vector3 targetPosition = camTransform.position + camTransform.forward * currentHoldDistance;
         
         // Position: steer velocity toward the target point (spring-like)
@@ -109,9 +112,9 @@ public class ItemPickup : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        if (camera == null) return;
+        if (playerCamera == null) return;
 
-        Transform camTransform = camera.transform;
+        Transform camTransform = playerCamera.transform;
         Vector3 start = camTransform.position;
         Vector3 direction = camTransform.forward;
 

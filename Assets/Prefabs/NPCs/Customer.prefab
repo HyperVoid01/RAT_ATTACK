@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 9012403788439559036}
   - component: {fileID: 3704343855462782586}
   - component: {fileID: 4671894526601432268}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1852856879081640102}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: PizzaSlot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 6424696290375570081}
   - component: {fileID: 2577182500523598440}
   - component: {fileID: 86684767874132787}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Customer
   m_TagString: Interactable
   m_Icon: {fileID: 0}
@@ -227,6 +227,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 8f28c983f4401e5429cb9fc1d5972708, type: 2}
+  ratLayer:
+    serializedVersion: 2
+    m_Bits: 512
   orderTaken: 0
   inLine: 0
   joinedQueue: 0
@@ -278,6 +281,12 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onHoldStart:
+    m_PersistentCalls:
+      m_Calls: []
+  onHoldEnd:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &8071103817812865762
 GameObject:
   m_ObjectHideFlags: 0
@@ -289,7 +298,7 @@ GameObject:
   - component: {fileID: 8655672410852316849}
   - component: {fileID: 5724570095302194885}
   - component: {fileID: 8056945844043801371}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}

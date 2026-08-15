@@ -12,12 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 359ee18b362e3d64d8e44581d127d6aa, type: 3}
   m_Name: RatData
   m_EditorClassIdentifier: 
-  speed: 1
+  speed: 8
   maxHealth: 100
   wanderRadius: 10
   minIdleTime: 0
   maxIdleTime: 1
   fleeRadius: 5
   fleeDistance: 8
-  pizzaRadius: 0
-  eatTime: 0
+  pizzaDetectRadius: 3
+  eatDuration: 10
+  sizeGrowthMultiplier: 1.5
+  cleanUpDuration: 2

@@ -10,6 +10,8 @@ public class RatData : ScriptableObject
     public float maxIdleTime;
     public float fleeRadius; // How close player must be to trigger fleeing
     public float fleeDistance; // How far the rat tries to run
-    public float pizzaRadius; // How close rat detects pizza
-    public float eatTime; // How long till pizza is eaten
+    public float pizzaDetectRadius; // How close rat detects pizza
+    public float eatDuration; // How long till pizza is eaten
+    public float sizeGrowthMultiplier; // How much rat grows after eating pizza
+    public float cleanUpDuration; // How long it takes to clean up rat body
 }

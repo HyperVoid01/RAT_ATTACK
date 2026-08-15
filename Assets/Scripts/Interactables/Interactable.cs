@@ -14,7 +14,7 @@ public class Interactable : MonoBehaviour, IHoldInteraction
     public UnityEvent onHoldStart;
     public UnityEvent onHoldEnd;
 
-    private void Start()
+    private void Awake()
     {
         outline = GetComponent<Outline>();
         DisableOutline();
@@ -48,39 +48,3 @@ public class Interactable : MonoBehaviour, IHoldInteraction
         outline.enabled = true;
     }
 }
-
-// using UnityEngine;
-// using UnityEngine.Events;
-// using UnityEngine.UI;
-//
-// public class Interactable : MonoBehaviour
-// {
-//     private Outline outline;
-//     public string message;
-//     
-//     public UnityEvent onInteraction;
-//
-//     private void Start()
-//     {
-//         outline = GetComponent<Outline>();
-//         DisableOutline();
-//     }
-//
-//     public void Interact()
-//     {
-//         onInteraction.Invoke();
-//     }
-//
-//     public void DisableOutline()
-//     {
-//         outline.enabled = false;
-//     }
-//
-//     public void EnableOutline()
-//     {
-//         if (!outline)
-//             return;
-//         
-//         outline.enabled = true;
-//     }
-// }

@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 6739926527881864115}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.16, y: 1.54, z: 5.357}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -56,7 +56,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2, y: 0.5, z: 2}
+  m_Size: {x: 2, y: 0.25, z: 2}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &3916465630171101835
 Rigidbody:
@@ -137,6 +137,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   message: Pickup (LMB)
   onInteraction:
+    m_PersistentCalls:
+      m_Calls: []
+  onHoldStart:
+    m_PersistentCalls:
+      m_Calls: []
+  onHoldEnd:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &6901675692181424492

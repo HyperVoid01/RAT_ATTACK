@@ -10,9 +10,6 @@ public class RatSpray : MonoBehaviour, IHoldInteraction
     [SerializeField] private ParticleSystem sprayParticle;
     [SerializeField] private LayerMask layerMask;
 
-    [Header("Debug")]
-    [SerializeField] private bool showDebug = true;
-
     private Coroutine sprayRoutine;
 
     public bool IsSpraying => sprayRoutine != null;

@@ -44,6 +44,9 @@ public class RatSpawner : MonoBehaviour
         
         for (int i = 0; i < amountToSpawn; i++)
         {
+            if (ratCount >= maxSpawnCount)
+                yield break;
+            
             // Get random spawn point
             Vector3 spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)].position;
             float randomSize = Random.Range(minSize, maxSize);

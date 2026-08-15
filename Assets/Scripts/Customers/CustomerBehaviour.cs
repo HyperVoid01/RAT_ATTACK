@@ -1,9 +1,13 @@
+using System;
 using System.Collections;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class CustomerBehaviour : MonoBehaviour
 {
     [SerializeField] private CustomerData data;
+    [SerializeField] private LayerMask ratLayer;
+    private int ratSightingMeter = 0;
     private Flavour order;
     public bool orderTaken;
     public bool inLine;
@@ -17,6 +21,7 @@ public class CustomerBehaviour : MonoBehaviour
     {
         interactable = GetComponent<Interactable>();
         movement = GetComponent<CustomerMovement>();
+        StartCoroutine(CheckForRats());
     }
 
     private void Start()
@@ -64,5 +69,35 @@ public class CustomerBehaviour : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         StartCoroutine(movement.Leave());
         GameManager.Instance.money += 10;
+    }
+
+    private IEnumerator CheckForRats()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(1f);
+
+            if (!Physics.CheckSphere(transform.position, data.ratDetectionRadius, ratLayer))
+            {
+                ratSightingMeter = Mathf.Clamp(ratSightingMeter - 1, 0, data.ratTolerance);
+                continue;
+            }
+            
+            ratSightingMeter++;
+
+            // Customer has seen rats too much and leaves restaurant
+            if (ratSightingMeter >= data.ratTolerance)
+            {
+                Debug.Log("Customer saw a rat!");
+                StartCoroutine(movement.Leave());
+                yield break;
+            }
+        }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, data.ratDetectionRadius);
     }
 }

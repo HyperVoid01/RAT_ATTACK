@@ -138,7 +138,9 @@ public class CustomerMovement : MonoBehaviour
 
     public IEnumerator Leave() // Leave restaurant
     {
-        currentTable.LeaveSeat(gameObject);
+        if (currentTable)
+            currentTable.LeaveSeat(gameObject);
+        
         agent.SetDestination(CustomerSpawner.Instance.exitPoint.position);
         yield return new WaitUntil(() => Vector3.Distance(transform.position, agent.destination) < 0.5f);
 
