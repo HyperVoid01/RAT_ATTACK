@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Pizza
   - Interactable
+  - Rat
   layers:
   - Default
   - TransparentFX

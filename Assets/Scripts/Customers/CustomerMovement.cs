@@ -4,8 +4,6 @@ using UnityEngine.AI;
 
 public class CustomerMovement : MonoBehaviour
 {
-    // NOTE : Need to convert customer scripts to use state pattern
-    
     [SerializeField] private CustomerData data;
     [SerializeField] private Transform pizzaSlot; // where customers hold pizza
     

@@ -55,8 +55,19 @@ public class PickupStation : MonoBehaviour
         {
             if (customer.Order == currentPizza.Flavour)
             {
+                GameObject pizzaToDeliver = currentPizzaObject;
                 currentPizza.DisablePickup();
-                StartCoroutine(customer.movement.PickupPizza(pickupPoint, currentPizzaObject));
+                
+                currentPizza = null;
+                currentPizzaObject = null;
+                
+                if (pizzaToDeliver.TryGetComponent(out Collider pizzaCol))
+                    pizzaCol.enabled = false;
+                
+                if (pizzaToDeliver.TryGetComponent(out Rigidbody pizzaRb))
+                    pizzaRb.isKinematic = true;
+                
+                StartCoroutine(customer.movement.PickupPizza(pickupPoint, pizzaToDeliver));
                 waitingCustomers.Remove(customer);
                 return;
             }

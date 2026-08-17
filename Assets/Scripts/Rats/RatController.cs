@@ -10,6 +10,8 @@ public class RatController : MonoBehaviour, ITargetable
     [SerializeField] private GameObject aliveMesh;
     [SerializeField] private GameObject deadMesh;
     
+    public Collider boxCollider;
+    
     private GameObject currentPizza;
     private RigidbodyInterpolation pizzaOriginalInterpolation;
     private int currentHealth;
@@ -18,12 +20,15 @@ public class RatController : MonoBehaviour, ITargetable
     private float idleTimer;
     private bool isWaiting;
     private bool isFleeing;
+    
+    // Cleanup
     private Coroutine cleanUpRoutine;
     private Coroutine shakeRoutine;
     private Vector3 shakeOrigin;
 
     private void Start()
     {
+        boxCollider = GetComponent<Collider>();
         agent = GetComponent<NavMeshAgent>();
         agent.speed = data.speed;
         currentHealth = data.maxHealth;
@@ -109,11 +114,7 @@ public class RatController : MonoBehaviour, ITargetable
         // Stop it from being picked up by other rats / interacting with the world while carried
         if (pizza.TryGetComponent(out Collider pizzaCollider))
             pizzaCollider.enabled = false;
-
-        // Kinematic Rigidbodies with Interpolate/Extrapolate smooth their visual
-        // position across physics steps. Snapping localPosition via parenting
-        // (outside FixedUpdate) fights that interpolation and causes jitter.
-        // Force interpolation off while carried, restore it when dropped.
+        
         if (pizza.TryGetComponent(out Rigidbody pizzaRb))
         {
             pizzaRb.isKinematic = true;

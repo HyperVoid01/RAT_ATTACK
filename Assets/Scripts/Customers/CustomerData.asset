@@ -16,4 +16,4 @@ MonoBehaviour:
   orderWaitTime: 50
   eatTime: 10
   ratDetectionRadius: 4
-  ratTolerance: 3
+  ratTolerance: 5

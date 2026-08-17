@@ -19,7 +19,7 @@ MonoBehaviour:
   maxIdleTime: 1
   fleeRadius: 5
   fleeDistance: 8
-  pizzaDetectRadius: 3
+  pizzaDetectRadius: 1.5
   eatDuration: 10
   sizeGrowthMultiplier: 1.5
   cleanUpDuration: 2

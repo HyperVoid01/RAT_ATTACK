@@ -538,11 +538,12 @@ GameObject:
   m_Component:
   - component: {fileID: 5046100228915365934}
   - component: {fileID: 4657940722044748019}
+  - component: {fileID: 8756378650837565737}
   - component: {fileID: 1620514042481285110}
   - component: {fileID: 7873441681222797949}
   m_Layer: 9
   m_Name: Rat
-  m_TagString: Untagged
+  m_TagString: Rat
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -586,6 +587,33 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.5, y: 0.5, z: 1}
   m_Center: {x: 0, y: 0.25, z: 0}
+--- !u!54 &8756378650837565737
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3020374867137122112}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 2
 --- !u!195 &1620514042481285110
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -627,6 +655,7 @@ MonoBehaviour:
   pizzaSlot: {fileID: 3355853780051395075}
   aliveMesh: {fileID: 1643811611570751099}
   deadMesh: {fileID: 274503380195551909}
+  boxCollider: {fileID: 0}
   player: {fileID: 0}
 --- !u!1 &3198238558145768002
 GameObject:
