@@ -16,6 +16,8 @@ public class PlayerInteraction : MonoBehaviour
     // for future hold-based features without touching Update().
     private HoldInputBinding lookHold;
     private HoldInputBinding itemHold;
+    
+    public bool isActive = true;
 
     private void Awake()
     {
@@ -35,9 +37,12 @@ public class PlayerInteraction : MonoBehaviour
 
     private void Update()
     {
+        if (!isActive)
+            return;
+        
         CheckInteraction();
 
-        if (Input.GetKeyDown(KeyCode.E) && currentInteractable)
+        if (Input.GetKeyDown(interactKey) && currentInteractable)
         {
             currentInteractable.Interact();
         }

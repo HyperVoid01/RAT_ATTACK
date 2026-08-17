@@ -64,7 +64,6 @@ public class RatSpray : MonoBehaviour, IHoldInteraction
             if (target != null)
             {
                 target.TakeDamage(damage);
-                Debug.Log($"Spray hit {hit.collider.name} for {damage} damage");
             }
         }
     }

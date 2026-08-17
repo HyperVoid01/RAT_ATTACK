@@ -4,9 +4,19 @@ using UnityEngine;
 
 public class HUDManager : MonoBehaviour
 {
+    [Header("Interactions")]
     [SerializeField] private TMP_Text interactionText;
+    
+    [Header("HUDs")]
+    [SerializeField] private GameObject playerHud;
+    [SerializeField] private GameObject computerUI;
+    
+    [Header("Customer Orders")]
     [SerializeField] private Transform orderTextRoot;
     [SerializeField] private GameObject orderDetails;
+    
+    [Header("Computer")]
+    
     
     Dictionary<CustomerBehaviour, GameObject> customerOrders = new Dictionary<CustomerBehaviour, GameObject>();
 
@@ -55,5 +65,23 @@ public class HUDManager : MonoBehaviour
         GameObject oldOrder = customerOrders[customer];
         customerOrders.Remove(customer);
         Destroy(oldOrder);
+    }
+
+    public void SwitchToComputer()
+    {
+        SetAllInActive();
+        computerUI.SetActive(true);
+    }
+
+    public void SwitchToPlayer()
+    {
+        SetAllInActive();
+        playerHud.SetActive(true);
+    }
+
+    public void SetAllInActive()
+    {
+        playerHud.SetActive(false);
+        computerUI.SetActive(false);
     }
 }
