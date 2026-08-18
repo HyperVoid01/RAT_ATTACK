@@ -164,8 +164,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 3, y: 1.2, z: 2}
-  m_Center: {x: 0, y: 0.57, z: 0}
+  m_Size: {x: 3.7379866, y: 2.5, z: 2.4249992}
+  m_Center: {x: 0.002099514, y: 1, z: -0.052513123}
 --- !u!114 &7923982332871518625
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -206,7 +206,7 @@ Transform:
   m_GameObject: {fileID: 3335753399171504256}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: 2.212, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -416,6 +416,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 71e6ffa1fd7c7cd4692a2d769ebb1459, type: 3}
       propertyPath: m_Name
       value: Chair
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 71e6ffa1fd7c7cd4692a2d769ebb1459, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:

@@ -5,7 +5,8 @@ using UnityEngine.UI;
 public class OrderStation : MonoBehaviour
 {
     [SerializeField] public Transform[] lineSlots; // Spots for customers to stand in
-    [SerializeField] private Image orderImage;
+    [SerializeField] public Image orderImage;
+    [SerializeField] private Sprite[] orderSprites;
 
     public List<CustomerBehaviour> customersInLine = new();
     private int reservedSlots;
@@ -27,12 +28,67 @@ public class OrderStation : MonoBehaviour
         Instance = this;
     }
 
+    private void Start()
+    {
+        orderImage.enabled = false;
+    }
+
     private void Update()
     {
         if (customersInLine.Count > 0 && !customersInLine[0].orderTaken && customersInLine[0].interactable != null)
         {
             customersInLine[0].interactable.enabled = true;
+            orderImage.enabled = true;
+            orderImage.sprite = GetOrderImage(customersInLine[0].Order);
         }
+        else
+        {
+            orderImage.enabled = false;
+        }
+    }
+
+    private Sprite GetOrderImage(Flavour flavour)
+    {
+        switch (flavour)
+        {
+            case Flavour.Plain:
+            {
+                return orderSprites[0];
+            }
+            
+            case Flavour.Pepperoni:
+            {
+                return orderSprites[1];
+            }
+            
+            case Flavour.Onion:
+            {
+                return orderSprites[2];
+            }
+            
+            case Flavour.Veg:
+            {
+                return orderSprites[3];
+            }
+            
+            case Flavour.PepperoniAndOnions:
+            {
+                return orderSprites[4];
+            }
+            
+            case Flavour.PepperoniAndVeg:
+            {
+                return orderSprites[5];
+            }
+            
+            case Flavour.OnionAndVeg:
+            {
+                return orderSprites[6];
+            }
+        }
+        
+        orderImage.enabled = false;
+        return null;
     }
 
     // Called once per customer at spawn time so two customers spawning in the

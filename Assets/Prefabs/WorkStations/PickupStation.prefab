@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1458364975721685303}
   - component: {fileID: 7043005495622819628}
   - component: {fileID: 3477162864478259349}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Bell
   m_TagString: Interactable
   m_Icon: {fileID: 0}
@@ -275,6 +275,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 0833f3a4a5897e440a2009c95cfa0391, type: 3}
       propertyPath: m_Name
       value: Service_Bell
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 0833f3a4a5897e440a2009c95cfa0391, type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

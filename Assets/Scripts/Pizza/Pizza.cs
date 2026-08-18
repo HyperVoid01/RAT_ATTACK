@@ -2,25 +2,40 @@ using UnityEngine;
 
 public class Pizza : MonoBehaviour
 {
-    [SerializeField] private Color cookedColor;
-    [SerializeField] private Color[] flavorColors = new Color[6];
-    
+    [SerializeField] private GameObject raw;
+    [SerializeField] private GameObject[] pizzaVariants = new GameObject[6];
+    [SerializeField] private MeshRenderer[] meshRenderers = new MeshRenderer[6];
+
+    [SerializeField] private Material rawMaterial;
+    [SerializeField] private Material cookedMaterial;
+
     private PizzaState pizzaState = PizzaState.raw;
     private Flavour flavour = Flavour.Plain;
-    
+
     public PizzaState PizzaState { get => pizzaState; }
     public Flavour Flavour { get => flavour; }
+
+    // Plain has no entry in pizzaVariants (it lives in `raw` instead), so
+    // every lookup goes through here instead of indexing (int)f - 1 directly.
+    private GameObject GetVisualFor(Flavour f)
+    {
+        if (f == Flavour.Plain)
+            return raw;
+        
+        return pizzaVariants[(int)f];
+    }
 
     public void Cook()
     {
         pizzaState = PizzaState.cooked;
-        GetComponentInChildren<MeshRenderer>().material.color += cookedColor;
+        GetVisualFor(flavour).transform.GetChild(0).GetComponent<MeshRenderer>().material = cookedMaterial;
     }
 
-    public void ChangeFlavor(Flavour newFlavor)
+    public void ChangeFlavor(Flavour newFlavour)
     {
-        flavour = newFlavor;
-        GetComponentInChildren<MeshRenderer>().material.color = flavorColors[(int)flavour - 1];
+        GetVisualFor(flavour).SetActive(false);
+        flavour = newFlavour;
+        GetVisualFor(flavour).SetActive(true);
     }
 
     public void DisablePickup()
@@ -39,21 +54,21 @@ public enum PizzaState
 /*
  Different combos:
  0 - Plain
- 1 - T1
- 2 - T2
- 3 - T3
- 4 - T1, T2
- 5 - T1, T3
- 6 - T2, T3
+ 1 - Pep
+ 2 - Onions
+ 3 - Veg
+ 4 - Pep, Onions
+ 5 - Pep, Veg
+ 6 - Onions, Veg
 */
 
 public enum Flavour
 {
     Plain,    // No Toppings
-    Flavour1, // T1
-    Flavour2, // T2
-    Flavour3, // T3
-    Flavour4, // T1, T2
-    Flavour5, // T1, T3
-    Flavour6  // T2, T3
+    Pepperoni, // Pep
+    Onion, // Onions
+    Veg, // Veg
+    PepperoniAndOnions, // Pep , Onions
+    PepperoniAndVeg, // Pep, Veg
+    OnionAndVeg  // Onions, Veg
 }

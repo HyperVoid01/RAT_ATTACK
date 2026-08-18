@@ -6,7 +6,7 @@ public class IngredientStation : MonoBehaviour
     [SerializeField] private Interactable topping1;
     [SerializeField] private Interactable topping2;
     [SerializeField] private Interactable topping3;
-
+    
     private GameObject currentPizzaObject;
     private Pizza currentPizza;
     
@@ -41,19 +41,19 @@ public class IngredientStation : MonoBehaviour
         {
             case Flavour.Plain:
             {
-                currentPizza.ChangeFlavor(Flavour.Flavour1);
+                currentPizza.ChangeFlavor(Flavour.Pepperoni);
                 break;
             }
 
-            case Flavour.Flavour2:
+            case Flavour.Onion:
             {
-                currentPizza.ChangeFlavor(Flavour.Flavour4);
+                currentPizza.ChangeFlavor(Flavour.PepperoniAndOnions);
                 break;
             }
 
-            case Flavour.Flavour3:
+            case Flavour.Veg:
             {
-                currentPizza.ChangeFlavor(Flavour.Flavour5);
+                currentPizza.ChangeFlavor(Flavour.PepperoniAndVeg);
                 break;
             }
             
@@ -69,19 +69,19 @@ public class IngredientStation : MonoBehaviour
         {
             case Flavour.Plain:
             {
-                currentPizza.ChangeFlavor(Flavour.Flavour2);
+                currentPizza.ChangeFlavor(Flavour.Onion);
                 break;
             }
             
-            case Flavour.Flavour1:
+            case Flavour.Pepperoni:
             {
-                currentPizza.ChangeFlavor(Flavour.Flavour4);
+                currentPizza.ChangeFlavor(Flavour.PepperoniAndOnions);
                 break;
             }
             
-            case Flavour.Flavour3:
+            case Flavour.Veg:
             {
-                currentPizza.ChangeFlavor(Flavour.Flavour6);
+                currentPizza.ChangeFlavor(Flavour.OnionAndVeg);
                 break;
             }
         }
@@ -96,19 +96,19 @@ public class IngredientStation : MonoBehaviour
         {
             case Flavour.Plain:
             {
-                currentPizza.ChangeFlavor(Flavour.Flavour3);
+                currentPizza.ChangeFlavor(Flavour.Veg);
                 break;
             }
             
-            case Flavour.Flavour1:
+            case Flavour.Pepperoni:
             {
-                currentPizza.ChangeFlavor(Flavour.Flavour5);
+                currentPizza.ChangeFlavor(Flavour.PepperoniAndVeg);
                 break;
             }
             
-            case Flavour.Flavour2:
+            case Flavour.Onion:
             {
-                currentPizza.ChangeFlavor(Flavour.Flavour6);
+                currentPizza.ChangeFlavor(Flavour.OnionAndVeg);
                 break;
             }
         }

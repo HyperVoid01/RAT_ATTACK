@@ -12,7 +12,7 @@ public class PizzaSpawner : MonoBehaviour
 
     private void Start()
     {
-        pizza = Instantiate(pizzaPrefab, pizzaSpawnPoint);
+        pizza = Instantiate(pizzaPrefab, pizzaSpawnPoint.position, Quaternion.identity);
     }
     
     private void OnTriggerExit(Collider other)
@@ -30,7 +30,7 @@ public class PizzaSpawner : MonoBehaviour
 
     public void SpawnButton()
     {
-        if (!pizza && spawnRoutine == null)
+        if (spawnRoutine == null)
             spawnRoutine = StartCoroutine(SpawnPizza());
     }
 }

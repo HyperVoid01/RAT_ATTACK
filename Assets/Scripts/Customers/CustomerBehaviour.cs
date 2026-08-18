@@ -50,7 +50,7 @@ public class CustomerBehaviour : MonoBehaviour
         }
 
         orderTaken = true;
-        HUDManager.Instance.AddOrderText(this, order.ToString());
+        HUDManager.Instance.AddOrderText(this, MakeOrderString());
 
         if (interactable != null)
         {
@@ -59,6 +59,49 @@ public class CustomerBehaviour : MonoBehaviour
         }
 
         movement.LeaveLine(table);
+    }
+
+    private String MakeOrderString()
+    {
+        switch (order)
+        {
+            case Flavour.Plain:
+            {
+                return "Plain Pizza";
+            }
+            
+            case Flavour.Pepperoni:
+            {
+                return "Pepperoni Pizza";
+            }
+            
+            case Flavour.Onion:
+            {
+                return "Onion Pizza";
+            }
+            
+            case Flavour.Veg:
+            {
+                return "Veg Pizza";
+            }
+            
+            case Flavour.PepperoniAndOnions:
+            {
+                return "Pepperoni & Onion Pizza";
+            }
+            
+            case Flavour.PepperoniAndVeg:
+            {
+                return "Pepperoni & Veg Pizza";
+            }
+            
+            case Flavour.OnionAndVeg:
+            {
+                return "Onion & Veg Pizza";
+            }
+        }
+
+        return "";
     }
 
     public IEnumerator EatPizza(GameObject pizza)
