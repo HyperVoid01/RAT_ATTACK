@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -28,5 +29,14 @@ public class Table : MonoBehaviour
     public void LeaveSeat(GameObject customer)
     {
         customersAtTable.Remove(customer);
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        foreach (Transform seat in seatSlots)
+        {
+            Gizmos.DrawSphere(seat.position, 0.1f);
+        }
     }
 }
