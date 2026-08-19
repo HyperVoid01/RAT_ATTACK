@@ -20,7 +20,8 @@ public class RatController : MonoBehaviour, ITargetable
     private float idleTimer;
     private bool isWaiting;
     private bool isFleeing;
-    
+    private bool isChasingPizza; // true from the moment a pizza is spotted until it's grabbed/lost
+
     // Cleanup
     private Coroutine cleanUpRoutine;
     private Coroutine shakeRoutine;
@@ -59,6 +60,11 @@ public class RatController : MonoBehaviour, ITargetable
             SetNewDestination();
         }
 
+        // While chasing a pizza, don't let the idle/wander logic below
+        // reassign the agent's destination out from under HuntPizzas().
+        if (isChasingPizza)
+            return;
+
         if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
         {
             if (!isWaiting)
@@ -95,9 +101,17 @@ public class RatController : MonoBehaviour, ITargetable
             if (!foundPizza)
                 continue;
 
+            isChasingPizza = true;
+            isWaiting = false; // don't let a stale idle timer fire mid-chase
             agent.SetDestination(foundPizza.transform.position);
-            
+
+            // Wait on actual proximity to the pizza rather than the agent's
+            // current destination/remainingDistance - keeps this correct
+            // even if something else (e.g. Flee) briefly reassigns the
+            // destination mid-chase.
             yield return new WaitUntil(() => foundPizza == null || (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance));
+
+            isChasingPizza = false;
 
             // Pizza got grabbed by another rat (or destroyed) while we were walking over
             if (!foundPizza)
@@ -144,16 +158,25 @@ public class RatController : MonoBehaviour, ITargetable
 
     private GameObject LookForPizzas()
     {
-        if (!Physics.SphereCast(transform.position, data.pizzaDetectRadius, Vector3.forward,
-            out RaycastHit hit, data.pizzaDetectRadius, pizzaLayerMask))
-            return null;
-        
-        if (hit.collider.CompareTag("Pizza"))
+        Collider[] hits = Physics.OverlapSphere(transform.position, data.pizzaDetectRadius, pizzaLayerMask);
+
+        GameObject nearest = null;
+        float nearestDist = float.MaxValue;
+
+        foreach (Collider hit in hits)
         {
-            return hit.collider.gameObject;
+            if (!hit.CompareTag("Pizza"))
+                continue;
+
+            float dist = Vector3.Distance(transform.position, hit.transform.position);
+            if (dist < nearestDist)
+            {
+                nearestDist = dist;
+                nearest = hit.gameObject;
+            }
         }
-        
-        return null;
+
+        return nearest;
     }
 
     private void Flee()
@@ -238,6 +261,7 @@ public class RatController : MonoBehaviour, ITargetable
             GetComponent<Collider>().enabled = false;
             aliveMesh.SetActive(false);
             deadMesh.SetActive(true);
+            Debug.Log("Died");
         }
     }
 

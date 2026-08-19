@@ -4,22 +4,22 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    [Header("Camera Settings")]
-    [SerializeField] private float mouseSensitivity = 2f;
-    [SerializeField] private float cameraClampY = 90f;
-    [SerializeField] public bool isActive = true;
+    // [Header("Camera Settings")]
+    // [SerializeField] private float mouseSensitivity = 2f;
+    // [SerializeField] private float cameraClampY = 90f;
+    // [SerializeField] public bool isActive = true;
 
     [Header("Switching Positions")] 
     [SerializeField] private float panDuration;
     
-    [Header("References")]
-    [SerializeField] private Transform playerBody;
-
-    private float xRotation = 0f;
+    // [Header("References")]
+    // [SerializeField] private Transform playerBody;
+    //
+    // private float xRotation = 0f;
     //private float yRotation = 0f;
 
-    private float smoothX;
-    private float smoothY;
+    // private float smoothX;
+    // private float smoothY;
     private Vector3 lastPosition;
     private Quaternion lastRotation;
     
@@ -44,20 +44,22 @@ public class CameraController : MonoBehaviour
 
     private void Update()
     {
-        if (!isActive)
-            return;
+        // if (!isActive)
+        //     return;
         
-        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
-        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
+        // Camera movement handled by player movement script
+        
+        // float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
+        // float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
         
         // Apply rotation deltas
         //yRotation += mouseX;
-        xRotation -= mouseY;
-        xRotation = Mathf.Clamp(xRotation, -cameraClampY, cameraClampY);
-        
-        transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
-        
-        playerBody.Rotate(Vector3.up * mouseX);
+        // xRotation -= mouseY;
+        // xRotation = Mathf.Clamp(xRotation, -cameraClampY, cameraClampY);
+        //
+        // transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+        //
+        // playerBody.Rotate(Vector3.up * mouseX);
     }
     
     public void SwitchPosition(Transform endPoint, Action onComplete)

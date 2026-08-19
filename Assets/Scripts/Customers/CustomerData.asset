@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: CustomerData
   m_EditorClassIdentifier: 
   walkSpeed: 5
-  orderWaitTime: 50
-  eatTime: 10
+  orderWaitTime: 60
+  eatTime: 15
   ratDetectionRadius: 4
   ratTolerance: 5

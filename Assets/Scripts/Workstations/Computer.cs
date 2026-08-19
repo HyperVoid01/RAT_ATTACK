@@ -24,11 +24,12 @@ public class Computer : MonoBehaviour
         HUDManager.Instance.SetAllInActive();
         
         PlayerMovement.Instance.canMove = false;
-        CameraController.Instance.isActive = false;
+        // CameraController.Instance.isActive = false;
         
         CameraController.Instance.SwitchPosition(cameraPosition, () =>
         {
             HUDManager.Instance.SwitchToComputer();
+            UpdateUI();
         });
     }
 
@@ -41,7 +42,7 @@ public class Computer : MonoBehaviour
         CameraController.Instance.ReturnToLastPosition(() =>
         {
             PlayerMovement.Instance.canMove = true;
-            CameraController.Instance.isActive = true;
+            // CameraController.Instance.isActive = true;
             
             HUDManager.Instance.SwitchToPlayer();
         });
@@ -61,6 +62,12 @@ public class Computer : MonoBehaviour
     public void OpenUpgradesMenu()
     {
         upgradesMenu.SetActive(true);
+        pestControlMenu.SetActive(false);
+    }
+
+    public void BackToHomeScreen()
+    {
+        upgradesMenu.SetActive(false);
         pestControlMenu.SetActive(false);
     }
 

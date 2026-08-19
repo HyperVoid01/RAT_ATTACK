@@ -42,6 +42,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        // Converts directions into world space
         Vector3 forward = transform.TransformDirection(Vector3.forward);
         Vector3 right = transform.TransformDirection(Vector3.right);
 
@@ -51,6 +52,7 @@ public class PlayerMovement : MonoBehaviour
         float movementDirectionY = moveDirection.y;
         moveDirection = (forward * curSpeedX) + (right * curSpeedY);
 
+        // Jumping
         if (Input.GetButton("Jump") && canMove && characterController.isGrounded)
         {
             moveDirection.y = jumpPower;
@@ -60,27 +62,31 @@ public class PlayerMovement : MonoBehaviour
             moveDirection.y = movementDirectionY;
         }
 
+        // Gravity
         if (!characterController.isGrounded)
         {
             moveDirection.y -= gravity * Time.deltaTime;
         }
 
-        if (Input.GetKey(KeyCode.R) && canMove)
-        {
-            characterController.height = crouchHeight;
-            walkSpeed = crouchSpeed;
-            runSpeed = crouchSpeed;
+        // Crouching
+        // if (Input.GetKey(KeyCode.R) && canMove)
+        // {
+        //     characterController.height = crouchHeight;
+        //     walkSpeed = crouchSpeed;
+        //     runSpeed = crouchSpeed;
+        //
+        // }
+        // else
+        // {
+        //     characterController.height = defaultHeight;
+        //     walkSpeed = 6f;
+        //     runSpeed = 12f;
+        // }
 
-        }
-        else
-        {
-            characterController.height = defaultHeight;
-            walkSpeed = 6f;
-            runSpeed = 12f;
-        }
-
+        // Move Player
         characterController.Move(moveDirection * Time.deltaTime);
-
+        
+        // Mouse Look
         if (canMove)
         {
             rotationX += -Input.GetAxis("Mouse Y") * lookSpeed;

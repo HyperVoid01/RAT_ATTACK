@@ -25,12 +25,29 @@ public class MainMenuManager : MonoBehaviour
     public void OnClickSettings()
     {
         mainMenuUI.SetActive(false);
+        settingsUI.SetActive(true);
 
         StartCoroutine(PanCamera(mainMenuCameraPosition.position, mainMenuCameraPosition.rotation,
             settingsCameraPosition.position, settingsCameraPosition.rotation, () =>
             {
                 settingsUI.SetActive(true);
             }));
+    }
+
+    public void OnClickBack()
+    {
+        settingsUI.SetActive(false);
+        
+        StartCoroutine(PanCamera(settingsCameraPosition.position, settingsCameraPosition.rotation,
+            mainMenuCameraPosition.position, mainMenuCameraPosition.rotation, () =>
+            {
+                mainMenuUI.SetActive(true);
+            }));
+    }
+
+    public void OnClickExit()
+    {
+        Application.Quit();
     }
     
     private IEnumerator PanCamera(Vector3 startPos, Quaternion startRot, Vector3 endPos, Quaternion endRot, Action onComplete)

@@ -39,7 +39,7 @@ public class MouseTrap : MonoBehaviour
 
     private IEnumerator CatchRat()
     {
-        gameObject.layer = 0;
+        gameObject.layer = 11;
         
         caughtRat.transform.position = snapPosition.position;
         caughtRat.transform.parent = transform;

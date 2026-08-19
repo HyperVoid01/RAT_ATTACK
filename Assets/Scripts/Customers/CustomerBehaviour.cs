@@ -21,7 +21,7 @@ public class CustomerBehaviour : MonoBehaviour
     {
         interactable = GetComponent<Interactable>();
         movement = GetComponent<CustomerMovement>();
-        StartCoroutine(CheckForRats());
+        //StartCoroutine(CheckForRats());
     }
 
     private void Start()
@@ -111,7 +111,7 @@ public class CustomerBehaviour : MonoBehaviour
         
         yield return new WaitForSeconds(0.5f);
         StartCoroutine(movement.Leave());
-        GameManager.Instance.money += 10;
+        GameManager.Instance.money += 50;
     }
 
     private IEnumerator CheckForRats()
